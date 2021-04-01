@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Slider</title>
+</head>
+<body>
+  <style>
+    .button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    function playSound(){
+      playAudio(1);
+      playAudio(0);
+    }
+    function pauseSound(){
+      song1.pause();
+      song2.pause();
+    }
+  </script>
+  <button onclick="playSound()" class = "button" type="button">Play</button>
+  <button onclick="pauseSound()" class = "button" type="button">Pause</button><br>
+
+  <div id = "first_player">
+    <div id = "slide" > </div>
+  </div>
+ <div id = "second_player"></div>
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+<style>
+  #player{
+    width: : 350px;
+    height: 50px;
+    position: relative;
+    margin: 0 auto;
+    top: 150px;
+  }
+  #slide{
+    position: absolute;
+    left: 24px;
+    margin: 0 auto;
+    height: 15px;
+    width: 300px;
+  }
+  #slide .ui-slider-handle{
+    width: 38px;
+    height: 35px;
+    position: absolute;
+    margin-left: -15px;
+    margin-top: -8px;
+  }
+</style>
+
+<script>
+  var song1 = new Audio(''); 
+  var song2 = new Audio('');
+  song1.volume = 0;
+  song2.volume = 1;
+
+  $(document).ready(function(){
+    var play = false;
+    $("#slide").slider({
+      min: 0,
+      max: 100,
+      value: 0,
+      animate: true,  
+      range: 'min',
+      slide: function(event,ui){
+        setVolume(ui.value/100);
+      }
+    });
+    $('#first_player').append(song1);
+    $('#second_player').append(song2);
+    song2.id = 'song2';
+    song1.id = 'song1';
+  });
+
+  function playAudio(type){
+    var mediaExt = (song1.canPlayType('audio/mp3')) ?'.mp3' : 
+    (song1.canPlayType('audio/ogg')) ? '.ogg': '';//Firefox nao suporta mp3
+
+    if(type == 1){
+      song1.src = 'https://github.com/tiagoviegasdias/Website_Files/blob/main/Ciocarlia' + mediaExt +'?raw=true';
+      song1.setAttribute('loop' , 'loop');
+      song1.play();
+    }
+    else{
+      song2.src = 'https://github.com/tiagoviegasdias/Website_Files/blob/main/Kalashnikov' + mediaExt +'?raw=true';
+      song2.setAttribute('loop' , 'loop');
+      song2.play();
+    }
+  }
+
+  function setVolume(myVolume){
+    var song1 = document.getElementById('song1');
+    var song2 = document.getElementById('song2');
+    song1.volume = myVolume;
+    song2.volume = 1-myVolume;
+  }
+</script>
+
+</body>
+</html>
